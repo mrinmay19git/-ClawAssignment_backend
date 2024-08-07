@@ -3,26 +3,22 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const cookieParser = require("cookie-parser")
-
-// const bcrypt = require('bcryptjs');
 const db = require('./database');
 const { hashPassword, comparePassword } = require("./auth")
 
 const corsOptions = {
-    origin:'http://localhost:3003', // Replace with the origin of your frontend
+    origin:'http://localhost:3004', // replace with the origin of your frontend part
     credentials: true, // Allow credentials (cookies, HTTP authentication)
 };
 const app = express();
 app.use(cookieParser())
-
-
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
-// Replace 'your_jwt_secret' with a secure secret key
-const JWT_SECRET = 'your_jwt_secret';
 
-// Registration Route
+const JWT_SECRET = 'my_jwt_secret';
+
+
 app.post('/register', async (req, res) => {
     const { username, password } = req.body;
     if (!username || !password) {
@@ -44,23 +40,16 @@ app.post('/register', async (req, res) => {
 
 });
 
-// Login Route
+
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
     try {
         // Fetch user from the database
         const user = await db.getUserByUsername(username);
-
-        // Log the user object to check if it's being retrieved correctly
-        // console.log('User from database:', user);
-
         if (!user) return res.status(401).json({ error: 'Invalid credentials' });
 
         // Compare the provided password with the hashed password
         const match = await comparePassword(password, user.password);
-
-        // Log the result of the password comparison
-        // console.log('Password match result:', match);
 
         if (match) {
             // Generate JWT token if password matches
@@ -82,8 +71,8 @@ app.post('/login', async (req, res) => {
 
 app.post('/todo', async (req, res) => {
     const { description, status } = req.body;
-
     const { token } = req.cookies
+    console.log(token)
 
     if (!token) return res.status(401).json({ error: 'No token provided' });
 
@@ -104,10 +93,10 @@ app.post('/todo', async (req, res) => {
 });
 
 
-// Protected Route Example
+
 app.get('/getAllTodos', async (req, res) => {
     const { token } = req.cookies
-    console.log(token)
+    console.log(token);
     if (!token) return res.status(401).json({ error: 'No token provided' });
     jwt.verify(token, JWT_SECRET, (err, decoded) => {
         if (err) return res.status(401).json({ error: 'Invalid token' });
@@ -133,7 +122,7 @@ app.delete('/todo/:id', async (req, res) => {
     }
 });
 
-// Get all users
+
 app.get('/users', async (req, res) => {
     try {
         // Query to get all users

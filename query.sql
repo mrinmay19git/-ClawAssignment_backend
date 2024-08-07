@@ -4,3 +4,8 @@ WHERE type = 'table';
 
 
 SELECT * FROM users;
+SELECT * FROM sqlite_sequence;
+
+
+SELECT * FROM todos;
+

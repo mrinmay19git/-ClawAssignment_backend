@@ -1,17 +1,50 @@
-### Register a new user
+### To Register a new user
 POST http://localhost:3005/register
 Content-Type: application/json
 
 {
-    "username": "example@mail.com",
-    "password": "examplePassword"
+    "username": "example5@mail.com",
+    "password": "example5Password"
 }
 
-### Register a new user
+### To login as a  user
 POST http://localhost:3005/login
 Content-Type: application/json
 
 {
-    "username": "example@mail.com",
-    "password": "examplePassword"
+    "username": "example5@mail.com",
+    "password": "example5Password"
 }
+###
+
+POST http://localhost:3005/todo
+Content-Type: application/json
+
+{
+    "description":"Buy groceries",
+    "status": "Pending"
+}
+
+###
+GET http://localhost:3005/getAllTodos
+
+###
+DELETE http://localhost:3005/todo/1
+###
+GET http://localhost:3005/users
+Content-Type: application/json
+###
+
+PUT http://localhost:3005/todo/3
+Content-Type: application/json
+
+{
+    "description": "Finish the project",
+    "status": "completed"
+}
+
+#####
+GET http://localhost:3005/profile
+Content-Type: application/json
+
+#######
